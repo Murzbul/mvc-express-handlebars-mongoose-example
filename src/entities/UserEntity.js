@@ -4,6 +4,7 @@ class UserEntity
 {
   constructor(userDto)
   {
+      this.id =  userDto.id;
       this.firstName =  userDto.firstName;
       this.lastName = userDto.lastName;
       this.dni = userDto.dni;

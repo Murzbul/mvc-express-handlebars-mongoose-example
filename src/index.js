@@ -5,8 +5,8 @@ import express from 'express';
 import mongoose from 'mongoose';
 import { engine } from 'express-handlebars';
 import { resolve } from 'path';
-import userController from './controllers/userController.js';
 import SingletonClass from './models/singleton.js';
+import usersRoute from './routes/usersRoute.js';
 
 // Mostrar config
 // Mostrar inyeccion de dependencia
@@ -38,14 +38,7 @@ void (async() =>
             res.render('hello');
         });
 
-        const htmlOnWirePrefix = '/html-onwire';
-        app.get(htmlOnWirePrefix, userController.getHtmlUsers);
-        app.post(htmlOnWirePrefix, userController.addHtmlUser);
-
-        const dataOnWirePrefix = '/data-onwire';
-        app.get(dataOnWirePrefix, userController.getDataUsersView);
-        app.get(`${dataOnWirePrefix}/json`, userController.getDataUsersJson);
-        app.post(dataOnWirePrefix, userController.addDataUser);
+        app.use(usersRoute);
 
         app.get('/datos', function(req, res)
         {

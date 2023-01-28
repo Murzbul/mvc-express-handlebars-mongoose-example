@@ -1,5 +1,4 @@
 
-
 class CarritoService
 {
    static async add(productIds, carritoId)
@@ -17,9 +16,7 @@ class CarritoService
      }
 
      const carritoDao = new CarritoDao();
-     await carritoDao.add(products, carritoId);
-
-     console.log('Agregar productos');
+     await carritoDao.add(products, carritoId); // Se agregan los productos al carrito
    }
 }
 

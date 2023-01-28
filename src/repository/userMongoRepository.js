@@ -5,18 +5,26 @@ class UserMongoRepository
 {
     constructor()
     {
-        this.userDao = UserDao.getInstance();
+          this.userDao = UserDao.getInstance();
     }
 
      async create(data)
      {
-        await this.userDao.create(data);
+          const userDto = await this.userDao.create(data);
+          return new UserEntity(userDto);
      }
 
      async get(id)
      {
-        const userDto = await this.userDao.getOne(id);
-        return new UserEntity(userDto);
+          const userDto = await this.userDao.getOne(id);
+          return new UserEntity(userDto);
+     }
+
+     async getAll(id)
+     {
+          const usersDto = await this.userDao.getAll();
+
+          return usersDto.map(userDto => new UserEntity(userDto));
      }
 }
 

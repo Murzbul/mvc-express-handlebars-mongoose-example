@@ -1,8 +1,15 @@
 import express from 'express';
-import mealsController from '../controllers/mealController';
+import userController from '../controllers/userController.js';
 
-const router = express().Router();
+const router = express.Router();
 
-router.get('/menu', mealsController.getMenu);
+const htmlOnWirePrefix = '/html-onwire';
+router.get(htmlOnWirePrefix, userController.getHtmlUsers);
+router.post(htmlOnWirePrefix, userController.addHtmlUser);
+
+const dataOnWirePrefix = '/data-onwire';
+router.get(dataOnWirePrefix, userController.getDataUsersView);
+router.get(`${dataOnWirePrefix}/json`, userController.getDataUsersJson);
+router.post(dataOnWirePrefix, userController.addDataUser);
 
 export default router;

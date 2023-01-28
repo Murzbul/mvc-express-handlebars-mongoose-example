@@ -1,4 +1,3 @@
-import UserDto from '../UserDto.js';
 import UserRepositoryFactory from '../factories/dbUserFactory.js';
 
 class UserService
@@ -18,7 +17,7 @@ class UserService
          const userDto = {
              firstName: payload.firstName.trim(),
              lastName: payload.lastName.trim(),
-             dni: +payload.dni.trim()
+             dni: +payload.dni
          };
 
         if (userDto.firstName === 'root')
@@ -28,9 +27,18 @@ class UserService
 
         // Mucha mas logica de dominio
 
-        // Se puede utilizar Repositorio como tambien DAO
-        const repo = UserRepositoryFactory.create('UserMongoRepository');
-        await repo.create(userDto);
+        // Se puede utilizar Repositorio como también DAO
+        const repo = UserRepositoryFactory.create('UserMongoRepository'); // Aca se puede cambiar la class con un string
+
+        const userEntity = await repo.create(userDto);
+
+        console.log(userEntity);
+
+        return {
+          firstName: userEntity.firstName,
+          lastName: userEntity.lastName,
+          dni: userEntity.dni
+        };
      }
 
      static async get(id)
@@ -44,6 +52,20 @@ class UserService
           firstName: userEntity.firstName,
           lastName: userEntity.lastName
         };
+     }
+     static async getAll()
+     {
+        const repo = UserRepositoryFactory.create('UserMongoRepository');
+        const usersEntity = await repo.getAll();
+
+        // logica de negocio
+
+        return usersEntity.map(userEntity => ({
+            id: userEntity.id,
+            firstName: userEntity.firstName,
+            lastName: userEntity.lastName,
+            dni: userEntity.dni
+        }));
      }
 }
 
