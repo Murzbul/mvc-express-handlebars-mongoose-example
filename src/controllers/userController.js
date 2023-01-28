@@ -1,4 +1,6 @@
 import userSchema from '../models/userSchema.js';
+import UserDto from '../UserDto.js';
+import UserService from '../services/userService.js';
 
 const getHtmlUsers = async(req, res, next) =>
 {
@@ -9,9 +11,30 @@ const getHtmlUsers = async(req, res, next) =>
 
 const addHtmlUser = async(req, res, next) =>
 {
-    await userSchema.create(req.body);
+    await UserService.create(req.body);
 
     res.redirect('/html-onwire');
+}
+
+;const addProductsToCarrito = async(req, res, next) =>
+{
+    await CarritoService.create(req.body, req.params.id);
+
+    res.redirect('/html-onwire');
+};
+
+const getUser = async(req, res, next) =>
+{
+    const userDto = await UserService.get(req.params.id);
+
+    res.status(200).json({ data: userDto });
+    /*
+    * {
+    *    data: {
+    *         firstName: "Marcelo",
+    *         lastName:  "Rodriguez"
+    *     }
+    * */
 };
 
 const getDataUsersView = async(req, res, next) =>
